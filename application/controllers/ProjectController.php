@@ -68,7 +68,7 @@ class ProjectController extends CustomControllerAction
 
         $fp = new FormProcessor_Project($this->db, $this->identity->userId, $projectId);
 
-        if($request->isPost()) {print_r($request->getPost());exit;//die('Sucess!');
+        if($request->isPost()) {//print_r($request->getPost());exit;//die('Sucess!');
             if($fp->process($request))
                 $this->sendResults();
             else
