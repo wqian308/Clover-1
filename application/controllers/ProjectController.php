@@ -88,6 +88,31 @@ class ProjectController extends CustomControllerAction
         $this->sendResults($initData);
     }
 
+    public function deleteAction()
+    {
+        $request = $this->getRequest();
+        $projectId = $request->getQuery('pid');
+
+        $errors = array();
+        if(!isset($projectId))
+            $errors['projectid'] = '项目ID不能为空';
+
+        $project = new DatabaseObject_Project($this->db);
+        $project->load($projectId);
+
+        if(!$project->isOperate($this->identity->userId)) {
+            $errors['user'] = '不是项目负责人和创建人不能删除该项目';
+        }
+
+        if(count($errors) > 0) {
+            $this->sendErrors($errors);
+        } else {
+            $project->deleted = DatabaseObject_Project::DELETE_YES;
+            $project->save(false);
+            $this->sendResults();
+        }
+    }
+
     private function _setProjectAttribute($lists)
     {
         foreach($lists as &$list) {

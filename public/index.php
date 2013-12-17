@@ -35,5 +35,5 @@ try {
                 ->run();
 }
 catch(Exception $e) {
-    //echo $e->getMessage();
+    echo $e->getMessage();
 }

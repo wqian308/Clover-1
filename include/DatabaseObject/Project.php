@@ -4,6 +4,9 @@ class DatabaseObject_Project extends DatabaseObject
     const TYPE_PROJECT = 'project';
     const TYPE_TEMPLATE = 'template';
 
+    const DELETE_YES = 'Y';
+    const DELETE_NO  = 'N';
+
     public static $maps = array('cid' => 'client_id',
                                  'desp' => 'description');
 
@@ -17,6 +20,7 @@ class DatabaseObject_Project extends DatabaseObject
         $this->add('worknumber', 1);
         $this->add('desp');
         $this->add('status');
+        $this->add('deleted');
         $this->add('oweruid');
         $this->add('timeline');
         $this->add('cid');
@@ -55,6 +59,7 @@ class DatabaseObject_Project extends DatabaseObject
         if($options['oweruid'] > 0)
             $select->where('oweruid = ?', $options['oweruid']);
 
+        $select->where('deleted = ?', self::DELETE_NO);
         //echo $select->assemble();exit;
         return $db->fetchAssoc($select);
     }
@@ -185,5 +190,15 @@ class DatabaseObject_Project extends DatabaseObject
 
         $array[$this->_idField] = $this->_id;
         return $array;
+    }
+
+    public function isOperate($userId)
+    {
+        if($this->oweruid == $userId)
+            return true;
+        elseif($this->creator == $userId)
+            return true;
+        else
+            return false;
     }
 }
