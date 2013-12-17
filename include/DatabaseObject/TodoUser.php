@@ -1,6 +1,9 @@
 <?php
 class DatabaseObject_TodoUser extends DatabaseObject
 {
+    const DELETE_YES = 'Y';
+    const DELETE_NO  = 'N';
+
     public function __construct($db)
     {
         parent::__construct($db, 'todo_user', 'id');
@@ -31,7 +34,7 @@ class DatabaseObject_TodoUser extends DatabaseObject
     {
         $defaults = array('section_id' => 0,
                           'closed' => 0,
-                          'deleted' => 1,
+                          'deleted' => self::DELETE_NO,
                           'goal_id' => 0,
                           'uid' => 0,
                           'status' => 0,
@@ -56,8 +59,8 @@ class DatabaseObject_TodoUser extends DatabaseObject
         if($options['closed'] > 0)
             $select->where('closed = ?', $options['closed']);
 
-        if($options['deleted'] > 0)
-            $select->where('deleted <> ?', $options['deleted']);
+        if(strlen($options['deleted']) > 0)
+            $select->where('deleted = ?', $options['deleted']);
 
         if($options['goal_id'] > 0)
             $select->where('goal_id = ?', $options['goal_id']);

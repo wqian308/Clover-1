@@ -30,6 +30,7 @@ class DatabaseObject_Todo extends DatabaseObject
         $select->joinRight(array('t' => 'todo'),
                           'tu.tid = t.id',
                           't.*');
+
         //echo $select->assemble();exit;
         return $db->fetchAssoc($select);
     }
@@ -131,4 +132,13 @@ class DatabaseObject_Todo extends DatabaseObject
         return $array;
     }
 
+    public function isOperate($userId)
+    {
+        if($this->owner_uid == $userId)
+            return true;
+        elseif($this->assigner == $userId)
+            return true;
+        else
+            return false;
+    }
 }

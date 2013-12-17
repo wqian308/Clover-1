@@ -34,15 +34,26 @@ class TodoController extends CustomControllerAction
     {
         $request = $this->getRequest();
 
+        $errors = array();
+
         $tId = $request->getQuery('tid');
+        if(!isset($tId))
+            $errors['tid'] = '任务ID不能为空';
+
         $todo = new DatabaseObject_Todo($this->db);
         $todo->load($tId);
-        $todo->todoUser->deleted = 1;
 
-        if($todo->save())
+        if(!$todo->isOperate($this->identity->userId))
+            $errors['user'] = '不是当前任务的负责人和创建人';
+
+        if(count($errors) > 0) {
+            $this->sendErrors($errors);
+        } else {
+            $todo->todoUser->deleted = DatabaseObject_TodoUser::DELETE_YES;
+            $todo->save(false);
+
             $this->sendResults();
-        else
-            $this->sendErrors();
+        }
     }
 
     private function getDetails($tId, $pId)
