@@ -44,8 +44,8 @@ class DatabaseObject_Todo extends DatabaseObject
         }
 
         $this->follower->projectid = $this->todoUser->goal_id;
-        $this->follower->uid = $this->oweruid;
-        $this->follower->creator = $this->oweruid;
+        $this->follower->uid = $this->owner_uid;
+        $this->follower->creator = $this->owner_uid;
 
         return true;
     }
@@ -58,8 +58,8 @@ class DatabaseObject_Todo extends DatabaseObject
         $this->todoUser->save(false);
 
 
-        $this->follwer->tid = $this->getId();
-        $this->follwer->save(false);
+        $this->follower->tid = $this->getId();
+        $this->follower->save(false);
 
         $this->comment->creator = $this->owner_uid;
         $this->comment->goal_id = $this->todoUser->goal_id;

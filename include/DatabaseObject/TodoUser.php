@@ -21,9 +21,9 @@ class DatabaseObject_TodoUser extends DatabaseObject
         $this->add('deadline');
         $this->add('last_action_at', time(), self::TYPE_TIMESTAMP);
         $this->add('section_id');
-        $this->add('closed');
+        $this->add('closed', 0);
         $this->add('closed_at');
-        $this->add('deleted');
+        $this->add('deleted', self::DELETE_NO);
         $this->add('goal_id');
         $this->add('due_at', null, self::TYPE_TIMESTAMP);
         $this->add('created_at', time(), self::TYPE_TIMESTAMP);

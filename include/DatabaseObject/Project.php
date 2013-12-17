@@ -20,7 +20,7 @@ class DatabaseObject_Project extends DatabaseObject
         $this->add('worknumber', 1);
         $this->add('desp');
         $this->add('status');
-        $this->add('deleted');
+        $this->add('deleted', self::DELETE_NO);
         $this->add('oweruid');
         $this->add('timeline');
         $this->add('cid');
@@ -38,7 +38,7 @@ class DatabaseObject_Project extends DatabaseObject
         $this->add('updated_at', null, self::TYPE_TIMESTAMP);
 		$this->add('departmentid');
 
-        $this->projectUser = new DatabaseObject_ProjectUser($this->_db);
+        $this->projectUser = new DatabaseObject_ProjectUser($db);
     }
 
     public static function GetProjects($db, $options = array())
@@ -68,6 +68,8 @@ class DatabaseObject_Project extends DatabaseObject
     {
         $this->projectUser->uid = $this->oweruid;
         $this->projectUser->creator = $this->oweruid;
+
+        return true;
     }
 
     protected function postInsert()
