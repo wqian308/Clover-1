@@ -190,7 +190,7 @@ class DatabaseObject_Project extends DatabaseObject
             $array[$value] = $this->$value;
         }
 
-        $array[$this->_idField] = $this->_id;
+        $array[$this->_idField] = $this->getId();
         return $array;
     }
 
