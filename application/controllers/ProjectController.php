@@ -70,7 +70,7 @@ class ProjectController extends CustomControllerAction
 
         if($request->isPost()) {//print_r($request->getPost());exit;//die('Sucess!');
             if($fp->process($request))
-                $this->sendResults();
+                $this->sendResults($fp->project->toArray());
             else
                 $this->sendErrors($fp->getErrors());
         }

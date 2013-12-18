@@ -67,7 +67,7 @@ class FormProcessor_Project extends FormProcessor
 
         $this->price = $request->getPost('price');
         if(strlen($this->price) == 0)
-            $this->addError('price', 'Please enter a price');
+            $this->price = 0;//$this->addError('price', 'Please enter a price');
 
         $this->priavte = $request->getPost('private');
         $this->oweruid = $request->getPost('oweruid');
