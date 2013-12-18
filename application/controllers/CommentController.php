@@ -22,8 +22,35 @@ class CommentController extends CustomControllerAction
             }
         }
 
-        //$this->sendErrors(array('tid' => '任务ID不能为空'));
+        $this->sendErrors(array('tid' => '任务ID不能为空'));
 
+    }
+
+    public function deleteAction()
+    {
+        $request = $this->getRequest();
+        $commentId = $request->getQuery('comment_id');
+
+        $errors = array();
+
+        if(!isset($commentId))
+            $errors['commentid'] = '评论ID不能为空';
+
+        $comment = new DatabaseObject_Comment($this->db);
+        $comment->load($commentId);
+
+        if(!$comment->isOprate($this->identity->userId))
+            $errors['user'] = '不能删除其他人的评论及日志';
+
+        if(!$comment->delete())
+            $errors['delete'] = '未能正常删除';
+
+        if(count($errors) > 0) {
+            $this->sendErrors($errors);
+        }
+        else {
+            $this->sendResults();
+        }
     }
 
     private function getDetails($fp)

@@ -49,6 +49,14 @@ class DatabaseObject_Comment extends DatabaseObject
         return $db->fetchOne($select);
     }
 
+    public function isOprate($userId)
+    {
+        if($this->creator == $userId && $this->type == self::TYPE_COMMENT)
+            return true;
+        else
+            return false;
+    }
+
     private static function _GetBaseQuery($db, $options)
     {
         $defaults = array('goal_id' => 0,
