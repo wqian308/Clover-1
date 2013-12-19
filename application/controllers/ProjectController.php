@@ -113,6 +113,16 @@ class ProjectController extends CustomControllerAction
         }
     }
 
+    public function detailsAction()
+    {
+        $request = $this->getRequest();
+        $projectId = $request->getQuery('pid');
+
+        $details = $this->getProjectDetails($projectId);
+
+        $this->sendResults($details);
+    }
+
     private function _setProjectAttribute($lists)
     {
         foreach($lists as &$list) {
@@ -149,5 +159,31 @@ class ProjectController extends CustomControllerAction
         $users = DatabaseObject_User::GetUsers($this->db, $options);
 
         return $users;
+    }
+
+    private function getProjectDetails($projectId)
+    {
+        $project = new DatabaseObject_Project($this->db);
+        $project->load($projectId);
+
+        $client = new DatabaseObject_Client($this->db);
+        $client->load($project->cid);
+
+        $business = new DatabaseObject_Business($this->db);
+        $business->load($project->business_id);
+
+        $owner = new DatabaseObject_User($this->db);
+        $owner->load($project->oweruid);
+
+        $creator = new DatabaseObject_User($this->db);
+        $creator->load($project->creator);
+
+        $array = $project->toArray();
+        $array['client_name'] = $client->name;
+        $array['business_name'] = $business->name;
+        $array['owner_details'] = $owner->toArray();
+        $array['creator_details'] = $creator->toArray();
+
+        return $array;
     }
 }
