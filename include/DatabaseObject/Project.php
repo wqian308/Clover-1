@@ -31,7 +31,7 @@ class DatabaseObject_Project extends DatabaseObject
         $this->add('create_template_id');
         $this->add('business_id');
         $this->add('type', 'project');
-        $this->add('pravite', 0);
+        $this->add('private', 0);
         $this->add('archived', 0);
         $this->add('creator');
         $this->add('created_at', time(), self::TYPE_TIMESTAMP);
