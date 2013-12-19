@@ -91,7 +91,7 @@ class DatabaseObject_Project extends DatabaseObject
     {
         $section = new DatabaseObject_Section($this->_db);
         $section->goal_id = $this->getId();
-        $section->name = 'unfiled';
+        $section->name = '未分组';#'unfiled';
         $section->unfiled = 0;
 
         return $section->save(false);
